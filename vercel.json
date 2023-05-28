@@ -1,0 +1,26 @@
+{
+  "build": {
+    "env": {
+      "GO_BUILD_FLAGS": "-ldflags '-s -w'"
+    }
+  },
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/",
+      "status": 200,
+      "dest": "index.html"
+    },
+    {
+      "src": "/pandora",
+      "status": 200,
+      "dest": "pandora_token.html"
+    },
+    {
+      "src": "/getOpenAItokenByCode",
+      "status": 200,
+      "dest": "/api/pandora_token"
+    }
+  ],
+  "regions": ["sin1"]
+}

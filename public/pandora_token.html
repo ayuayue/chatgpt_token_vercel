@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandora</title>
+    <style>
+        pre {
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow: auto;
+            padding: 10px;
+            white-space: pre-wrap;
+            height: 160px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">这是一个获取 openai token 的辅助工具（由 chatgpt、github copilot 协助开发）</h2>
+    <div style="text-align: center;">
+        <p>
+            1. 首先需要能正常登录 chat.openai.com 。然后点击下面的登录链接。<br><br>
+            2. 然后在浏览器中打开开发者工具，切换到 Network 选项卡。<br><br>
+            3. 登录后最后会卡住，并最后有一个重定向的请求，参数携带的有 code，并且只有一个 code 参数的那个请求才是。需要把 code 复制过来，获取 token。<br><br>
+            4. 不会保存任何的信息，只充当一个调用工具，不做任何处理就返回原数据。<br><br>
+            5. 获取token后，进入 <a target="_blank" href="https://pandora.caoayu.top">Pandora</a> 页面，并填写使用获取到的 access_token 登录即可。
+        </p>
+        <p style="font-weight: bold;"><a target="_blank" href="https://auth0.openai.com/authorize?client_id=pdlLIX2Y72MIl2rhLhTE9VV9bN905kBh&audience=https%3A%2F%2Fapi.openai.com%2Fv1&redirect_uri=com.openai.chat%3A%2F%2Fauth0.openai.com%2Fios%2Fcom.openai.chat%2Fcallback&scope=openid%20email%20profile%20offline_access%20model.request%20model.read%20organization.read%20offline&response_type=code&code_challenge=t1RM5eR6dToh4VAe85qAf4ANdsnob6ANiuyl_z67mr4&code_challenge_method=S256&prompt=login">点击跳转到登录页面</a></p>
+    
+        <p>
+            <form action="/token" method="post" id="getToken">
+                <label for="code">请输入code：</label><br><br>
+                <textarea rows="5" cols="120" id="code" name="code" value="" ></textarea>
+                <br><br>
+                <button type="submit" >提交Code</button>
+    
+            </form>
+        </p>
+        <p>
+            返回信息：(只需要 access_token 即可登录) <button id="copy">点击复制全部返回值</button>
+            <div style="text-align: left;word-wrap: break-word;"><pre id="response"></pre></div>
+        </p>
+        <br><br>
+        <p>
+            本项目由 <a target="_blank" href="https://zhile.io/2023/05/19/how-to-get-chatgpt-access-token-via-pkce.html">zhile.io 博客</a> 指引 并由 vercel 部署完成。
+        </p>
+    </div>
+    
+</body>
+</html>
+<script>
+    // form 表单提交
+    document.getElementById("getToken").addEventListener("submit", function(e){
+        e.preventDefault();
+        document.getElementById("response").innerHTML = '';
+        var form = document.getElementById("getToken");
+        var formData = new FormData(form);
+        var code = document.getElementById("code").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/getOpenAItokenByCode");
+        xhr.send(formData);
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200){
+                var response = JSON.parse(xhr.responseText);
+                console.log(response)
+                document.getElementById("response").innerHTML = JSON.stringify(response);
+            }
+        }
+    })
+    document.getElementById("copy").addEventListener("click", function(e){
+        var response = document.getElementById("response").innerHTML;
+        var input = document.createElement("input");
+        input.value = response;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+        alert("复制成功");
+    })
+</script>
