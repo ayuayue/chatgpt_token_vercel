@@ -4,6 +4,7 @@
       "GO_BUILD_FLAGS": "-ldflags '-s -w'"
     }
   },
+
   "routes": [
     { "handle": "filesystem" },
     {
@@ -19,7 +20,17 @@
     {
       "src": "/getOpenAItokenByCode",
       "status": 200,
-      "dest": "/api/pandora_token"
+      "dest": "/api/get_openai_token"
+    },
+    {
+      "src": "/revokeOpenAIToken",
+      "status": 200,
+      "dest": "/api/revoke_openai_token"
+    },
+    {
+      "src": "/refreshOpenAIToken",
+      "status": 200,
+      "dest": "/api/refresh_openai_token"
     }
   ],
   "regions": ["sin1"]
