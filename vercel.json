@@ -10,7 +10,7 @@
     {
       "src": "/",
       "status": 200,
-      "dest": "index.html"
+      "dest": "pandora_token.html"
     },
     {
       "src": "/pandora",
