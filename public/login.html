@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandora</title>
+    <style>
+        pre {
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow: auto;
+            padding: 10px;
+            white-space: pre-wrap;
+            height: 160px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">这是一个获取 openai token 的辅助工具（由 chatgpt、github copilot 协助开发）</h2>
+    <div style="text-align: center;">
+        <h2>官方账号直接登录获取Token，MFA两步验证功能未经验证，如失败请转到 <a href="https://github.com/ayuayue/chatgpt_token_vercel/issues">Github issues</a></h2>
+        <hr>
+        <p>
+            <form action="#" method="post" id="getLoginToken">
+                <label for="username">请输入账户名：</label>
+                <input id="username" name="username" value="" ></input>
+                <label for="password">请输入密码：</label>
+                <input id="password" name="password" value="" ></input>
+                <label for="mfa_code">请输入MFA：</label>
+                <input id="mfa_code" name="mfa_code" value="" ></input>
+                <br><br>
+                <button type="submit" >获取 Token</button>
+            </form>
+
+        </p>
+        <p>
+            返回信息：(只需要 access_token 即可登录) <button id="copy">点击复制全部返回值</button>
+            <div style="text-align: left;word-wrap: break-word;"><pre id="response"></pre></div>
+        </p>
+        <h2>没有官方直登账号，想要使用第三方（谷歌、微软等）登录？</h2>
+        <a href="/third.html">点击此处使用第三方账号获取Token</a>
+        <br><br>
+        <p>
+            本项目由 <a target="_blank" href="https://zhile.io/2023/05/19/how-to-get-chatgpt-access-token-via-pkce.html">zhile.io 博客</a> 指导 并由 vercel 部署完成。
+        </p>
+    </div>
+
+</body>
+</html>
+<script>
+    // form 表单提交
+    document.getElementById("getLoginToken").addEventListener("submit", function(e){
+        e.preventDefault();
+        document.getElementById("response").innerHTML = '';
+        var form = document.getElementById("getLoginToken");
+        var formData = new FormData(form);
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var mfa_code = document.getElementById("mfa_code").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/getOpenAItoken");
+        xhr.send(formData);
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200){
+                console.log(response)
+                renderResponse(xhr.responseText)
+            }
+        }
+    })
+
+    function renderResponse(responseText) {
+        document.getElementById("response").innerHTML = JSON.stringify(responseText);
+    }
+
+</script>

@@ -10,12 +10,17 @@
     {
       "src": "/",
       "status": 200,
-      "dest": "index.html"
+      "dest": "login.html"
     },
     {
-      "src": "/pandora",
+      "src": "/third",
       "status": 200,
-      "dest": "pandora_token.html"
+      "dest": "third.html"
+    },
+    {
+      "src": "/getOpenAItoken",
+      "status": 200,
+      "dest": "/api/get_login_openai_token"
     },
     {
       "src": "/getOpenAItokenByCode",
