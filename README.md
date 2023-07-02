@@ -20,3 +20,7 @@
 
 
 如果要部署官网直登的api接口，需要在 vercel 上设置环境变量，key 是 LoginURL,值就是自己部署的 pandora 项目域名，注意不要用 cf 的安全模式，不然没法直接调用，因为安全问题需要手动验证。
+
+
+Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fayuayue%2Fchatgpt_token_vercel)
