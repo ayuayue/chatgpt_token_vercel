@@ -11,8 +11,6 @@ import (
 
 func GetLoginToken(w http.ResponseWriter, r *http.Request) {
 	loginUrl := os.Getenv("LoginURL")+"/auth/login"
-	// loginUrl = "https://pandora.caoayu.top/auth/login"
-	fmt.Println(loginUrl)
 	method := "POST"
 	params := url.Values{}
 	params.Set("username", r.PostFormValue("username"))
